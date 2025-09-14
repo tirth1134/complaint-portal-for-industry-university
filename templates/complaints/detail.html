@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Complaint Detail{% endblock %}
+{% block content %}
+<h2>{{ complaint.title }}</h2>
+<p><strong>Section:</strong> {{ complaint.get_category_display }}</p>
+<p><strong>Status:</strong> {{ complaint.get_status_display }}</p>
+<p><strong>Level:</strong> {{ complaint.get_level_display }}</p>
+<p>{{ complaint.description }}</p>
+{% if complaint.media %}
+  <p><a href="{{ complaint.media.url }}" target="_blank">View Attachment</a></p>
+{% endif %}
+{% if student_dept %}
+  <p><em>Student Department:</em> {{ student_dept }}</p>
+  <form method="post" action="{{ complaint.id }}/validate/">
+    {% csrf_token %}
+    <label>Valid?
+      <select name="valid">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </label>
+    <label>Note<textarea name="note" rows="3"></textarea></label>
+    <button class="btn" type="submit">Record Validation</button>
+  </form>
+  <form method="post" action="{{ complaint.id }}/status/" style="margin-top:1rem;">
+    {% csrf_token %}
+    <label>Status
+      <select name="status">
+        <option value="OPEN">Open</option>
+        <option value="IN_PROCESS">In Process</option>
+        <option value="CLOSED">Closed</option>
+      </select>
+    </label>
+    <label>Level
+      <select name="level">
+        <option value="CLASS">Class Mentor</option>
+        <option value="HOD">HOD</option>
+        <option value="ADMIN">Admin Office</option>
+      </select>
+    </label>
+    <button class="btn" type="submit">Update Status</button>
+  </form>
+{% endif %}
+{% endblock %}

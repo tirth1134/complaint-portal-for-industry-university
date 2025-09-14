@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Student Complaint Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/">Student Complaint Portal</a></h1>
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+            <li><a href="/dashboard/">Dashboard</a></li>
+            <li><a href="/logout/">Logout</a></li>
+          {% else %}
+            <li><a href="/login/">Login</a></li>
+            <li><a href="/register/student/">Student Register</a></li>
+            <li><a href="/register/staff/">Staff Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    {% for message in messages %}
+      <div class="flash {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">&copy; {{ now|date:'Y' }} Student Complaint Portal</div>
+  </footer>
+</body>
+</html>

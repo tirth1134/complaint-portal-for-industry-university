@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Student Complaint Portal{% endblock %}
+{% block content %}
+<section class="hero">
+  <h2>Voice your concerns. Help improve your campus.</h2>
+  <div style="display:flex; gap: 1rem; justify-content:center; margin-top:1rem;">
+    <a class="btn primary" href="/register/student/">Register as Student</a>
+    <a class="btn" href="/register/staff/">Register as Staff</a>
+  </div>
+</section>
+{% endblock %}

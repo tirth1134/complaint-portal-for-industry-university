@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Student Registration{% endblock %}
+{% block content %}
+<h2>Student Registration</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Enrollment Number<input type="text" name="enrollment_number" required></label>
+  <label>First Name<input type="text" name="first_name" required></label>
+  <label>Last Name<input type="text" name="last_name" required></label>
+  <label>Phone<input type="tel" name="phone" required></label>
+  <label>Stream
+    <select name="stream" required>
+      {% for value,label in streams %}
+        <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Password<input type="password" name="password" required></label>
+  <button class="btn primary" type="submit">Register</button>
+</form>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome, {{ user.first_name }}!</h2>
+<p>Credits: <strong>{{ user.credits }}</strong></p>
+<p><a class="btn" href="/complaints/new/">Raise a Complaint</a></p>
+{% endblock %}

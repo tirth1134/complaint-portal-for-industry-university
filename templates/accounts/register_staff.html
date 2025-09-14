@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Staff Registration{% endblock %}
+{% block content %}
+<h2>Staff Registration</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>College ID<input type="text" name="college_id" required></label>
+  <label>First Name<input type="text" name="first_name" required></label>
+  <label>Last Name<input type="text" name="last_name" required></label>
+  <label>Phone<input type="tel" name="phone" required></label>
+  <label>Email<input type="email" name="email" required></label>
+  <label>Department<input type="text" name="department" required></label>
+  <label>Role
+    <select name="role" required>
+      {% for value,label in roles %}
+        <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Password<input type="password" name="password" required></label>
+  <button class="btn primary" type="submit">Register</button>
+</form>
+{% endblock %}
