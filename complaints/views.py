@@ -6,6 +6,16 @@ from .models import Complaint, CATEGORY_CHOICES, STATUS_CHOICES, LEVEL_CHOICES, 
 from accounts.models import User
 
 @login_required
+def list_complaints(request):
+    if request.user.role == 'STUDENT':
+        qs = Complaint.objects.filter(student=request.user).order_by('-created_at')
+        context = {'complaints': qs, 'is_staff_view': False}
+    else:
+        qs = Complaint.objects.all().select_related('student').order_by('-created_at')
+        context = {'complaints': qs, 'is_staff_view': True}
+    return render(request, 'complaints/list.html', context)
+
+@login_required
 def create_complaint(request):
     user: User = request.user
     if user.role != 'STUDENT':
@@ -78,6 +88,3 @@ def update_status(request, complaint_id):
     messages.success(request, 'Status updated.')
     return redirect('complaint_detail', complaint_id=complaint_id)
 
-from django.shortcuts import render
-
-# Create your views here.
