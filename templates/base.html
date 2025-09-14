@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Student Complaint Portal{% endblock %}</title>
+  {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -31,7 +32,7 @@
     {% block content %}{% endblock %}
   </main>
   <footer class="site-footer">
-    <div class="container">&copy; {{ now|date:'Y' }} Student Complaint Portal</div>
+    <div class="container">&copy; {% now 'Y' %} Student Complaint Portal</div>
   </footer>
 </body>
 </html>

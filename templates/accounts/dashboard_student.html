@@ -3,5 +3,8 @@
 {% block content %}
 <h2>Welcome, {{ user.first_name }}!</h2>
 <p>Credits: <strong>{{ user.credits }}</strong></p>
-<p><a class="btn" href="/complaints/new/">Raise a Complaint</a></p>
+<p style="display:flex; gap: .5rem;">
+  <a class="btn" href="/complaints/new/">Raise a Complaint</a>
+  <a class="btn" href="/complaints/">My Complaints</a>
+</p>
 {% endblock %}

@@ -12,10 +12,12 @@ def create_complaint(request):
         messages.error(request, 'Only students can create complaints.')
         return redirect('dashboard')
     if request.method == 'POST':
-        if not user.can_raise_again():
-            messages.error(request, 'You can raise a new complaint in a section after 5 days.')
-            return redirect('create_complaint')
         category = request.POST.get('category')
+        # Enforce 5-day cooldown per category
+        last = Complaint.objects.filter(student=user, category=category).order_by('-created_at').first()
+        if last and timezone.now() < last.created_at + timezone.timedelta(days=5):
+            messages.error(request, 'You can raise a new complaint in this section after 5 days.')
+            return redirect('create_complaint')
         title = request.POST.get('title')
         description = request.POST.get('description')
         media = request.FILES.get('media')
