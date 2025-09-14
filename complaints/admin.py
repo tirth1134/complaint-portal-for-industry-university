@@ -17,6 +17,5 @@ class CreditTransactionAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'reason', 'created_at')
     list_filter = ('amount',)
 
-from django.contrib import admin
 
 # Register your models here.

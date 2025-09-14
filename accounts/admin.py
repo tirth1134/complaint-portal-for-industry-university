@@ -13,6 +13,5 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('role', 'department', 'stream', 'is_active', 'is_staff')
     search_fields = ('username', 'email', 'enrollment_number', 'college_id')
 
-from django.contrib import admin
 
 # Register your models here.
