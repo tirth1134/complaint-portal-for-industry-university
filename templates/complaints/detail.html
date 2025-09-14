@@ -11,7 +11,7 @@
 {% endif %}
 {% if student_dept %}
   <p><em>Student Department:</em> {{ student_dept }}</p>
-  <form method="post" action="{{ complaint.id }}/validate/">
+  <form method="post" action="/complaints/{{ complaint.id }}/validate/">
     {% csrf_token %}
     <label>Valid?
       <select name="valid">
@@ -22,7 +22,7 @@
     <label>Note<textarea name="note" rows="3"></textarea></label>
     <button class="btn" type="submit">Record Validation</button>
   </form>
-  <form method="post" action="{{ complaint.id }}/status/" style="margin-top:1rem;">
+  <form method="post" action="/complaints/{{ complaint.id }}/status/" style="margin-top:1rem;">
     {% csrf_token %}
     <label>Status
       <select name="status">
