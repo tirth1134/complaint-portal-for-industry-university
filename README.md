@@ -2,6 +2,12 @@
 
 A Django-based web application for students to submit complaints across key sections and for staff (Faculty, HOD, Admin) to review and manage them while preserving student anonymity.
 
+## Key Features
+
+- 20 credits granted on student registration; +5 credits for each valid complaint (wallet transactions recorded)
+- 5-day cooldown per section for raising a new complaint
+- Staff can see complaint details without student identity (only student department is shown)
+
 ## Features
 
 - Student registration with enrollment number, name, phone, stream (BCA, BTech, MTech, MSc IT, MBA, BBA, MCA), and password
@@ -97,3 +103,10 @@ A Django-based web application for students to submit complaints across key sect
 - For production, configure proper static/media hosting and set ALLOWED_HOSTS in .env.
 - The app preserves student anonymity for staff views by only showing the student department.
 - Credits are tracked and transactions recorded for auditability.
+- <img width="1920" height="1080" alt="Screenshot (5)" src="https://github.com/user-attachments/assets/32a07c14-a3f5-4e9a-9cc9-005ecbc5e2e4" />
+<img width="1920" height="1080" alt="Screenshot (4)" src="https://github.com/user-attachments/assets/15120401-c28c-44e3-b017-e65ecb78f13b" />
+- <img width="1920" height="1080" alt="Screenshot (3)" src="https://github.com/user-attachments/assets/802e3801-a357-4ce9-a631-182b219ce7b9" />
+<img width="1920" height="1080" alt="Screenshot (2)" src="https://github.com/user-attachments/assets/670538fe-dd2f-4c87-b3c4-70f9573f2946" />
+<img width="1920" height="1080" alt="Screenshot 2025-09-15 092525" src="https://github.com/user-attachments/assets/a03457e4-78cb-44cd-9cb3-0d253b626efd" />
+<img width="1920" height="1080" alt="Screenshot (6)" src="https://github.com/user-attachments/assets/788583c4-e0ef-46aa-9d87-a06e67f0ccbb" />
+
