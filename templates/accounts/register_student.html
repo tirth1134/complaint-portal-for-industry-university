@@ -1,21 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Student Registration{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% endblock %}
+{% block body_class %}auth-page{% endblock %}
 {% block content %}
-<h2>Student Registration</h2>
-<form method="post">
-  {% csrf_token %}
-  <label>Enrollment Number<input type="text" name="enrollment_number" required></label>
-  <label>First Name<input type="text" name="first_name" required></label>
-  <label>Last Name<input type="text" name="last_name" required></label>
-  <label>Phone<input type="tel" name="phone" required></label>
-  <label>Stream
-    <select name="stream" required>
-      {% for value,label in streams %}
-        <option value="{{ value }}">{{ label }}</option>
-      {% endfor %}
-    </select>
-  </label>
-  <label>Password<input type="password" name="password" required></label>
-  <button class="btn primary" type="submit">Register</button>
-</form>
+<section class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-avatar"><span>S</span></div>
+      <h3 class="auth-brand">CampusWhisper</h3>
+      <h2 class="auth-title">Member Sign Up</h2>
+      <p class="auth-subtitle">Create your account</p>
+    </div>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      <div class="form-field">
+        <label for="enrollment_number">Enrollment Number</label>
+        <input id="enrollment_number" type="text" name="enrollment_number" placeholder="Enter Enrollment Number" required>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="first_name">First Name</label>
+          <input id="first_name" type="text" name="first_name" placeholder="Enter First Name" required>
+        </div>
+        <div class="form-field">
+          <label for="last_name">Last Name</label>
+          <input id="last_name" type="text" name="last_name" placeholder="Enter Last Name" required>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" placeholder="Enter Email" required>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="tel" name="phone" placeholder="10-digit mobile" pattern="^[0-9]{10}$" inputmode="numeric" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="stream">Stream</label>
+        <select id="stream" name="stream" required>
+          <option value="" disabled selected>-- Select --</option>
+          {% for value,label in streams %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" placeholder="At least 8 chars, not too common" minlength="8" required>
+      </div>
+      <div class="form-actions">
+        <button class="btn-gradient" type="submit">Sign Up</button>
+      </div>
+    </form>
+    <div class="divider">OR</div>
+    <p class="auth-footnote">Already have an account? <a href="/login/">Login</a></p>
+  </div>
+</section>
 {% endblock %}

@@ -1,10 +1,81 @@
 {% extends 'base.html' %}
 {% block title %}Student Dashboard{% endblock %}
 {% block content %}
-<h2>Welcome, {{ user.first_name }}!</h2>
-<p>Credits: <strong>{{ user.credits }}</strong></p>
-<p style="display:flex; gap: .5rem;">
+
+<h2 class="welcome">Welcome, {{ user.first_name }}!</h2>
+
+<section class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">Credits</div>
+    <div class="stat-value"><span class="emoji">🪙</span> {{ user.credits }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">My Complaints</div>
+    <div class="stat-value"><span class="emoji">📝</span> {{ my_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Open</div>
+    <div class="stat-value"><span class="emoji">📂</span> {{ open_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">In Process</div>
+    <div class="stat-value"><span class="emoji">🔄</span> {{ in_process_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Closed</div>
+    <div class="stat-value"><span class="emoji">✅</span> {{ closed_count }}</div>
+  </div>
+</section>
+
+<p class="welcome-sub">Track your complaints and credits, and raise new concerns.</p>
+
+<div class="action-row">
   <a class="btn" href="/complaints/new/">Raise a Complaint</a>
   <a class="btn" href="/complaints/">My Complaints</a>
-</p>
+</div>
+
+<div class="notice-bar">
+  {% if days_remaining and days_remaining > 0 %}
+    You can raise a new complaint in approximately <strong>{{ days_remaining }}</strong> day{% if days_remaining != 1 %}s{% endif %}.
+  {% else %}
+    You can raise a new complaint now.
+  {% endif %}
+</div>
+
+<section class="recent">
+  <h3>Recent complaints</h3>
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Section</th>
+          <th>Status</th>
+          <th>Level</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in recent_complaints %}
+          <tr>
+            <td>{{ c.title }}</td>
+            <td>{{ c.get_category_display }}</td>
+            <td>
+              <span class="status-chip {% if c.status == 'OPEN' %}open{% elif c.status == 'IN_PROCESS' %}in-process{% else %}closed{% endif %}">
+                {{ c.get_status_display }}
+              </span>
+            </td>
+            <td>{{ c.get_level_display }}</td>
+            <td>{{ c.created_at|date:'Y-m-d H:i' }}</td>
+            <td><a class="btn" href="/complaints/{{ c.id }}/">View</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6">No complaints yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
 {% endblock %}

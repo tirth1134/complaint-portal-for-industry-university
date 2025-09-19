@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .ring{ fill:none; stroke:#e8b5bd; stroke-width:10; }
+      .word{ font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif; font-weight:700; fill:#e8b5bd; }
+    </style>
+  </defs>
+  <circle class="ring" cx="250" cy="250" r="225"/>
+  <text class="word" x="50%" y="48%" font-size="72" text-anchor="middle">campus</text>
+  <text class="word" x="50%" y="63%" font-size="72" text-anchor="middle">whisper</text>
+</svg>

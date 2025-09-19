@@ -5,34 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Student Complaint Portal{% endblock %}</title>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="icon" href="{% static 'img/cw-logo.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=17">
+  {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
   <header class="site-header">
     <div class="container">
-      <h1><a href="/">Student Complaint Portal</a></h1>
+      <h1 class="brand">
+        <a href="/" class="brand-link" aria-label="Home">
+          <span class="brand-badge">
+            <img src="{% static 'img/cw-logo.svg' %}" alt="CW Logo" class="brand-logo" />
+          </span>
+          <span class="brand-name">CampusWhisper</span>
+        </a>
+      </h1>
       <nav>
         <ul>
           {% if user.is_authenticated %}
             <li><a href="/dashboard/">Dashboard</a></li>
+            {% if user.role and user.role != 'STUDENT' %}
+              <li>
+                <a href="/complaints/" class="notif-link">Notifications</a>
+              </li>
+            {% endif %}
             <li><a href="/logout/">Logout</a></li>
-          {% else %}
-            <li><a href="/login/">Login</a></li>
-            <li><a href="/register/student/">Student Register</a></li>
-            <li><a href="/register/staff/">Staff Register</a></li>
           {% endif %}
         </ul>
       </nav>
     </div>
   </header>
-  <main class="container">
+<main class="container {% block main_container_class %}{% endblock %}">
     {% for message in messages %}
       <div class="flash {{ message.tags }}">{{ message }}</div>
     {% endfor %}
     {% block content %}{% endblock %}
   </main>
   <footer class="site-footer">
-    <div class="container">&copy; {% now 'Y' %} Student Complaint Portal</div>
+    <div class="container">&copy; {% now 'Y' %} CampusWhisper</div>
   </footer>
 </body>
 </html>

@@ -1,7 +1,86 @@
 {% extends 'base.html' %}
 {% block title %}Staff Dashboard{% endblock %}
+{% block body_class %}staff-dashboard{% endblock %}
 {% block content %}
-<h2>Welcome, {{ user.first_name }} ({{ user.role }})</h2>
-<p>Review complaints from students in all sections.</p>
-<p><a class="btn" href="/complaints/">View All Complaints</a></p>
+<section class="dashboard-header">
+  <h2>Welcome, {{ user.first_name }} <small>({{ user.role }})</small></h2>
+  <p class="muted">Review and manage complaints across all sections.</p>
+</section>
+
+<section class="dashboard-grid">
+  <div class="card kpi">
+    <div class="kpi-label">Total Complaints</div>
+    <div class="kpi-value"><span class="emoji">📊</span> {{ stats.total }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">Open</div>
+    <div class="kpi-value"><span class="emoji">📂</span> {{ stats.open }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">In Process</div>
+    <div class="kpi-value"><span class="emoji">🔄</span> {{ stats.in_process }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">Closed</div>
+    <div class="kpi-value"><span class="emoji">✅</span> {{ stats.closed }}</div>
+  </div>
+  <div class="card kpi">
+    <div class="kpi-label">Validated</div>
+    <div class="kpi-value"><span class="emoji">🛡️</span> {{ stats.validated }}</div>
+  </div>
+</section>
+
+<div class="grid-2">
+  <div>
+    <h3 class="section-title">Recent complaints</h3>
+    <div class="card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Section</th>
+            <th>Status</th>
+            <th>Level</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in recent_complaints %}
+            <tr>
+              <td>{{ c.title }}</td>
+              <td>{{ c.get_category_display }}</td>
+              <td><span class="badge status-{{ c.status|lower }}">{{ c.get_status_display }}</span></td>
+              <td>{{ c.get_level_display }}</td>
+              <td>{{ c.created_at|date:'Y-m-d H:i' }}</td>
+<td><a class="btn btn-gradient" href="/complaints/{{ c.id }}/">View</a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6">No complaints yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+<p style="margin-top:.5rem;"><a class="btn btn-gradient" href="/complaints/">View all complaints</a></p>
+  </div>
+  <div>
+    <h3 class="section-title">By category</h3>
+    <div class="card">
+      <ul class="bar-list">
+        {% for item in category_breakdown %}
+          <li>
+            <div class="bar-row">
+              <span class="bar-label"><span class="emoji">{{ item.emoji }}</span> {{ item.label }}</span>
+              <span class="bar-count">{{ item.count }}</span>
+            </div>
+            <div class="bar">
+              <div class="bar-fill" style="width: {{ item.pct }}%"></div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

@@ -1,23 +1,161 @@
 {% extends 'base.html' %}
-{% block title %}Staff Registration{% endblock %}
+{% load static %}
+{% block title %}Member Sign Up{% endblock %}
+{% block extra_head %}
+  <script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+{% block body_class %}{% endblock %}
+{% block main_container_class %}p-0 max-w-full{% endblock %}
 {% block content %}
-<h2>Staff Registration</h2>
-<form method="post">
-  {% csrf_token %}
-  <label>College ID<input type="text" name="college_id" required></label>
-  <label>First Name<input type="text" name="first_name" required></label>
-  <label>Last Name<input type="text" name="last_name" required></label>
-  <label>Phone<input type="tel" name="phone" required></label>
-  <label>Email<input type="email" name="email" required></label>
-  <label>Department<input type="text" name="department" required></label>
-  <label>Role
-    <select name="role" required>
-      {% for value,label in roles %}
-        <option value="{{ value }}">{{ label }}</option>
-      {% endfor %}
-    </select>
-  </label>
-  <label>Password<input type="password" name="password" required></label>
-  <button class="btn primary" type="submit">Register</button>
-</form>
+<div class="min-h-screen flex items-center justify-center" style="background:#EEE6CA">
+  <div class="backdrop-blur-lg bg-white/60 border border-white/30 p-8 rounded-3xl shadow-xl w-full max-w-2xl transition-transform duration-300 hover:scale-105 mx-auto">
+    <div class="text-center mb-6">
+<div class="w-16 h-16 mx-auto flex items-center justify-center rounded-full bg-gradient-to-r from-[#C08A4A] to-[#8E6B3C] shadow-lg mb-3">📝</div>
+      <h1 class="text-2xl font-bold text-gray-800">Member Sign Up</h1>
+      <p class="text-gray-600 text-sm mt-1">Create your account</p>
+    </div>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="college_id">Member ID</label>
+        <input id="college_id" name="college_id" type="text" placeholder="Enter Member ID" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="first_name">First Name</label>
+        <input id="first_name" name="first_name" type="text" placeholder="Enter First Name" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="last_name">Last Name</label>
+        <input id="last_name" name="last_name" type="text" placeholder="Enter Last Name" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Enter Email" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="phone">Phone Number</label>
+        <input id="phone" name="phone" type="tel" placeholder="Enter Phone Number" pattern="^[0-9]{10}$" inputmode="numeric" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="working_at">Working At</label>
+        <select id="workingAt" name="working_at" onchange="showFields()" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition duration-200" required>
+          <option value="">-- Select --</option>
+          <option value="studentCommittee">Student Committee</option>
+          <option value="teachingFaculty">Teaching Faculty</option>
+          <option value="staffMember">Staff Member</option>
+          <option value="infraManager">Infrastructure Manager</option>
+          <option value="adminOffice">Admin Office</option>
+          <option value="hod">HOD</option>
+        </select>
+      </div>
+
+      <div id="facultyDept" class="hidden">
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="facultyDepartment">Department</label>
+        <select id="facultyDepartment" name="faculty_department" onchange="showFacultyStreams()" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm">
+          <option value="">-- Select Department --</option>
+          <option value="COMPUTING">Computing</option>
+          <option value="SST">SST</option>
+        </select>
+      </div>
+
+      <div id="computingStreams" class="hidden">
+        <p class="text-sm font-semibold text-gray-700 mb-1">Select Streams (Computing)</p>
+        <div class="flex flex-wrap gap-3">
+          <label><input type="checkbox" name="faculty_streams" value="BCA" class="mr-1">BCA</label>
+          <label><input type="checkbox" name="faculty_streams" value="MCA" class="mr-1">MCA</label>
+          <label><input type="checkbox" name="faculty_streams" value="BTECH" class="mr-1">B.Tech</label>
+          <label><input type="checkbox" name="faculty_streams" value="MTECH" class="mr-1">M.Tech</label>
+        </div>
+      </div>
+
+      <div id="sstStreams" class="hidden">
+        <p class="text-sm font-semibold text-gray-700 mb-1">Select Streams (SST)</p>
+        <div class="flex flex-wrap gap-3">
+          <label><input type="checkbox" name="faculty_streams" value="BSCIT" class="mr-1">BSc.IT</label>
+          <label><input type="checkbox" name="faculty_streams" value="MSCIT" class="mr-1">MSc.IT</label>
+          <label><input type="checkbox" name="faculty_streams" value="I_MSCIT" class="mr-1">I MSc.IT</label>
+          <label><input type="checkbox" name="faculty_streams" value="I_BSCIT" class="mr-1">I BSc.IT</label>
+        </div>
+      </div>
+
+      <div id="staffDescription" class="hidden">
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="staff_description">Description</label>
+        <textarea id="staff_description" name="staff_description" rows="3" placeholder="Enter staff description" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-300 transition duration-200"></textarea>
+      </div>
+
+      <div id="infraDropdown" class="hidden">
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="infra_building">Select Building</label>
+        <select id="infra_building" name="infra_building" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm">
+          <option value="">-- Select --</option>
+          <option value="NEW">New Building</option>
+          <option value="SCHOOL">School Building</option>
+          <option value="GU">GU Building</option>
+        </select>
+      </div>
+
+      <div id="hodDropdowns" class="hidden space-y-3">
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="hod_department">Select Department</label>
+        <select id="hod_department" name="hod_department" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm">
+          <option value="">-- Select --</option>
+          <option value="COMPUTING">Computing</option>
+          <option value="SST">SST</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Create a password" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition duration-200" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1" for="confirm_password">Confirm Password</label>
+        <input id="confirm_password" name="confirm_password" type="password" placeholder="Re-enter password" class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-white/70 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-300 transition duration-200" required>
+      </div>
+
+<button type="submit" class="w-full py-2 px-4 rounded-xl bg-gradient-to-r from-[#C08A4A] to-[#8E6B3C] text-white font-semibold shadow-md hover:from-[#b67d46] hover:to-[#7b5f34] hover:shadow-lg transition duration-300">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    function showFields() {
+      const value = document.getElementById('workingAt').value;
+
+      document.getElementById('facultyDept').classList.add('hidden');
+      document.getElementById('computingStreams').classList.add('hidden');
+      document.getElementById('sstStreams').classList.add('hidden');
+      document.getElementById('staffDescription').classList.add('hidden');
+      document.getElementById('infraDropdown').classList.add('hidden');
+      document.getElementById('hodDropdowns').classList.add('hidden');
+
+      if (value === 'teachingFaculty') {
+        document.getElementById('facultyDept').classList.remove('hidden');
+      } else if (value === 'staffMember') {
+        document.getElementById('staffDescription').classList.remove('hidden');
+      } else if (value === 'infraManager') {
+        document.getElementById('infraDropdown').classList.remove('hidden');
+      } else if (value === 'hod') {
+        document.getElementById('hodDropdowns').classList.remove('hidden');
+      }
+    }
+
+    function showFacultyStreams() {
+      const dept = document.getElementById('facultyDepartment').value;
+      document.getElementById('computingStreams').classList.add('hidden');
+      document.getElementById('sstStreams').classList.add('hidden');
+
+      if (dept === 'COMPUTING') {
+        document.getElementById('computingStreams').classList.remove('hidden');
+      } else if (dept === 'SST') {
+        document.getElementById('sstStreams').classList.remove('hidden');
+      }
+    }
+  </script>
+</div>
 {% endblock %}

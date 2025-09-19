@@ -1,19 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}New Complaint{% endblock %}
 {% block content %}
-<h2>Submit a Complaint</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <label>Section
-    <select name="category" required>
-      {% for value,label in categories %}
-        <option value="{{ value }}">{{ label }}</option>
-      {% endfor %}
-    </select>
-  </label>
-  <label>Title<input type="text" name="title" required></label>
-  <label>Description<textarea name="description" rows="5" required></textarea></label>
-  <label>Media Upload<input type="file" name="media" accept="image/*,video/*"></label>
-  <button class="btn primary" type="submit">Submit</button>
-</form>
+<div class="card padding form-card">
+  <h2>Submit a Complaint</h2>
+  <p class="welcome-sub">Please fill in the details below.</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if selected_category %}
+      <div class="flash" style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;">
+        <div>Section: <strong>{{ selected_label }}</strong></div>
+        <a href="/complaints/new/" class="btn">Change</a>
+      </div>
+      <input type="hidden" name="category" value="{{ selected_category }}">
+    {% else %}
+      <label>Section
+        <select name="category" required>
+          {% for value,label in categories %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endif %}
+    <label>Title<input type="text" name="title" required></label>
+    <label>Description<textarea name="description" rows="5" required></textarea></label>
+    <label>Media Upload<input type="file" name="media" accept="image/*,video/*"></label>
+    <button class="btn primary" type="submit">Submit</button>
+  </form>
+</div>
 {% endblock %}

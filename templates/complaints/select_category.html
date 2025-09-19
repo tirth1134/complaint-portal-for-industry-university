@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Choose Section{% endblock %}
+{% block content %}
+<h2 class="welcome" style="text-align:center">Choose a section</h2>
+<p class="welcome-sub" style="text-align:center">Select the category that best matches your complaint.</p>
+<div class="section-grid">
+  {% for t in tiles %}
+    <a class="section-tile" href="/complaints/new/{{ t.value }}/">
+      <div class="section-emoji">{{ t.emoji }}</div>
+      <div class="section-title">{{ t.title }}</div>
+      <div class="section-sub">{{ t.label }}</div>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

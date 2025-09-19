@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% endblock %}
+{% block body_class %}auth-page{% endblock %}
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  <label>Username<input type="text" name="username" required></label>
-  <label>Password<input type="password" name="password" required></label>
-  <button class="btn primary" type="submit">Login</button>
-</form>
+<section class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-header">
+      <img src="{% static 'img/cw-logo.svg' %}" alt="CampusWhisper" style="height:64px; display:block; margin:0 auto 8px; filter: drop-shadow(0 4px 14px rgba(236,72,153,.35));" />
+      <h3 class="auth-brand">CampusWhisper</h3>
+      <h2 class="auth-title">Login</h2>
+    </div>
+    <form method="post" class="auth-form" novalidate>
+      {% csrf_token %}
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <div class="form-actions">
+        <button class="btn-gradient" type="submit">Login</button>
+      </div>
+    </form>
+    <div class="divider">OR</div>
+    <p class="auth-footnote">Don’t have an account? <a href="/register/student/">Student Register</a> or <a href="/register/staff/">Staff Register</a></p>
+  </div>
+</section>
 {% endblock %}

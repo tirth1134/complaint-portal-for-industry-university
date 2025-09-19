@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    # Force homepage to always show login by logging out any active session
+    path('', views.logout_view, name='home'),
     path('register/student/', views.register_student, name='register_student'),
     path('register/staff/', views.register_staff, name='register_staff'),
     path('login/', views.login_view, name='login'),
